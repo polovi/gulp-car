@@ -45,7 +45,7 @@ function gulpcar(options) {
 
       replacementList.push({
         s: match[1],
-        r: "url(\"" + match[2] + '?v=' + new Date(stats.mtime).getTime() + "\")"
+        r: "url(\"" + match[2].replace(path.extname(match[2]), '.' + new Date(stats.mtime).getTime() + path.extname(match[2])) + "\")"
       });
     };
 
