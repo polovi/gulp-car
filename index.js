@@ -27,24 +27,32 @@ function gulpcar(options) {
       return done(new PluginError(PLUGIN_NAME, 'Streaming not supported'));
     }
 
-    var re, fileContent, match, filesList = [];
+    var re, fileContent, match, replacementList;
 
-    re = /url\(\"?\'?([^\'\"\)]+)\"?\'?\)/g
-    fileContent = String(file.contents);
+
+    re = /(url\(\"([^\"\?\#]+)\"\))/g
+    fileContent = String(file.contents)
+    replacementList = []
 
     while (match = re.exec(fileContent)) {
+      var filePath = path.join(options.dir, match[2]);
       try {
-        var stats = fs.statSync(path.join(options.dir, match[1]));
+        var stats = fs.statSync(filePath);
       } catch (e) {
+        log(PLUGIN_NAME + ":", gutil.colors.red("FILE NOT FOUND"), filePath);
         continue;
       }
-      var d = new Date(stats.mtime)
-      filesList[match[1]] = match[1] + '?v=' + d.getTime();
-    }
 
-    for (var search in filesList) {
-      var replacement = filesList[search]
-      file.contents = new Buffer(String(file.contents).replace(search, replacement));
+      replacementList.push({
+        s: match[1],
+        r: "url(\"" + match[2] + '?v=' + new Date(stats.mtime).getTime() + "\")"
+      });
+    };
+
+    var one, _i, _len;
+    for (_i = 0, _len = replacementList.length; _i < _len; _i++) {
+      one = replacementList[_i];
+      file.contents = new Buffer(String(file.contents).replace(one.s, one.r));
     }
 
     stream.push(file);
