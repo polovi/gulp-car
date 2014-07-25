@@ -1,0 +1,26 @@
+{
+  "name": "gulp-car",
+  "version": "0.0.1",
+  "description": "css assets revision lugin for gulp",
+  "license": "MIT",
+  "author": {
+    "name": "Tomas Polovincak",
+    "email": "polovincak.tomas@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/polovi/gulp-car.git"
+  },
+  "keywords": [
+    "gulpplugin",
+    "css",
+    "assets"
+  ],
+  "dependencies": {
+    "gulp-util": "~2.2.14"
+  },
+  "devDependencies": {},
+  "main": "index.js",
+  "readmeFilename": "README.md",
+  "homepage": "https://github.com/polovi/gulp-car"
+}
