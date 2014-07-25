@@ -36,6 +36,11 @@ function gulpcar(options) {
 
     while (match = re.exec(fileContent)) {
       var filePath = path.join(options.dir, match[2]);
+
+      if (path.extname(match[2]) !== '.png' && path.extname(match[2]) !== '.jpg' && path.extname(match[2]) !== '.gif' && path.extname(match[2]) !== '.svg') {
+        continue;
+      }
+
       try {
         var stats = fs.statSync(filePath);
       } catch (e) {
